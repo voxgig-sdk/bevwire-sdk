@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bevwire API",
+    "description": "The Bevwire API provides access to various beverage-related information, including product details, nutrition facts, and availability. It allows developers to integrate beverage data into their applications seamlessly. The API provides read-only JSON access for company search, article discovery, and article links.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "BevWire Support",
+      "url": "https://bevwire.com/contact"
+    },
+    "termsOfService": "https://bevwire.com/privacy-policy"
+  },
+  "servers": [
+    {
+      "url": "https://bevwire.com/api",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/companies/search": {
+      "get": {
+        "summary": "Search the BevWire company database",
+        "description": "Search companies that appear in BevWire article companies frontmatter. Each JSON hit includes article titles and canonical URLs. Every whitespace-separated token must appear in the company name or URL slug (case-insensitive).",
+        "operationId": "searchCompanies",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search text. Every whitespace-separated token must appear in the company name or URL slug (case-insensitive). An empty q returns empty companies array.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "milam"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of companies in the response (default 200, capped at 500)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 200,
+              "minimum": 1,
+              "maximum": 500
+            },
+            "example": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with company search results",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanySearchResponse"
+                },
+                "example": {
+                  "query": "milam",
+                  "companies": [
+                    {
+                      "slug": "milam-and-greene-whiskey",
+                      "name": "Milam & Greene Whiskey",
+                      "articleCount": 5,
+                      "articles": [
+                        {
+                          "title": "Milam & Greene Expands Distribution",
+                          "path": "/beer/industry-press-analysis/milam-greene-expands-distribution",
+                          "url": "https://bevwire.com/beer/industry-press-analysis/milam-greene-expands-distribution"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/read-finder-index.json": {
+      "get": {
+        "summary": "Get article index",
+        "description": "Returns lightweight metadata for every post under content/blog/ (no markdown body). Used by the on-site read-finder widget with Fuse.js. Responses support ETag and If-None-Match (304 when unchanged).",
+        "operationId": "getReadFinderIndex",
+        "tags": [
+          "Articles"
+        ],
+        "parameters": [
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "ETag value from previous request for cache validation",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with article index",
+            "headers": {
+              "ETag": {
+                "description": "Entity tag for cache validation",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadFinderIndexResponse"
+                },
+                "example": {
+                  "version": "1.0",
+                  "generatedAt": "2026-01-15T12:00:00Z",
+                  "fingerprint": "abc123def456",
+                  "articles": [
+                    {
+                      "path": "/spirits/editorials/old-forester-business-model",
+                      "title": "Old Forester's Business Model Guide",
+                      "excerpt": "An in-depth analysis of Old Forester's business strategy",
+                      "tags": [
+                        "spirits",
+                        "bourbon",
+                        "business"
+                      ],
+                      "tagsJoined": "spirits, bourbon, business",
+                      "section": "editorials",
+                      "author": "BevWire Editorial",
+                      "date": "2026-01-10"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - content unchanged since last request"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompanySearchResponse": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The trimmed search string that was sent"
+          },
+          "companies": {
+            "type": "array",
+            "description": "Array of company objects matching the search criteria",
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            }
+          }
+        },
+        "required": [
+          "query",
+          "companies"
+        ]
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly identifier for the company"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the company"
+          },
+          "articleCount": {
+            "type": "integer",
+            "description": "Number of articles mentioning this company"
+          },
+          "articles": {
+            "type": "array",
+            "description": "Articles featuring this company",
+            "items": {
+              "$ref": "#/components/schemas/Article"
+            }
+          }
+        },
+        "required": [
+          "slug",
+          "name",
+          "articleCount",
+          "articles"
+        ]
+      },
+      "Article": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the article"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the article"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Absolute URL to the article on bevwire.com"
+          }
+        },
+        "required": [
+          "title",
+          "path",
+          "url"
+        ]
+      },
+      "ReadFinderIndexResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API version"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the index was generated"
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "Content change token for cache invalidation"
+          },
+          "articles": {
+            "type": "array",
+            "description": "Array of all articles with metadata",
+            "items": {
+              "$ref": "#/components/schemas/ArticleMetadata"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "generatedAt",
+          "fingerprint",
+          "articles"
+        ]
+      },
+      "ArticleMetadata": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Canonical URL path for the article"
+          },
+          "title": {
+            "type": "string",
+            "description": "Article title"
+          },
+          "excerpt": {
+            "type": "string",
+            "description": "Brief summary or excerpt of the article"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Array of tags associated with the article",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tagsJoined": {
+            "type": "string",
+            "description": "Comma-separated string of tags"
+          },
+          "section": {
+            "type": "string",
+            "description": "Article section (e.g., editorials, reports, lists, industry-press-analysis, brewery-deep-dive)",
+            "enum": [
+              "editorials",
+              "reports",
+              "lists",
+              "industry-press-analysis",
+              "brewery-deep-dive"
+            ]
+          },
+          "author": {
+            "type": "string",
+            "description": "Article author name"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Publication date"
+          }
+        },
+        "required": [
+          "path",
+          "title",
+          "excerpt",
+          "tags",
+          "tagsJoined",
+          "section",
+          "author",
+          "date"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed error description"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Companies",
+      "description": "Operations related to beverage companies and their articles"
+    },
+    {
+      "name": "Articles",
+      "description": "Operations related to beverage industry articles and content discovery"
+    }
+  ],
+  "externalDocs": {
+    "description": "BevWire API Documentation",
+    "url": "https://bevwire.com/api-docs"
+  }
+}

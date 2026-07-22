@@ -1,0 +1,27 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      auth: false
+      contact: {
+        name: "BevWire Support"
+        url: "https://bevwire.com/contact"
+      }
+      description: "The Bevwire API provides access to various beverage-related information, including product details, nutrition facts, and availability. It allows developers to integrate beverage data into their applications seamlessly. The API provides read-only JSON access for company search, article discovery, and article links."
+      servers: [
+        {
+          description: "Production server"
+          url: "https://bevwire.com/api"
+        }
+      ]
+      summary: "The Bevwire API provides access to various beverage-related information, including product details, nutrition facts, and availability."
+      termsOfService: "https://bevwire.com/privacy-policy"
+      title: "Bevwire API"
+      version: "1.0.0"
+      website: "https://bevwire.com/api-docs"
+    }
+  }
+}
+

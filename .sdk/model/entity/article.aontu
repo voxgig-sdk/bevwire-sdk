@@ -1,0 +1,45 @@
+# Entity: article
+
+main: kit: entity: article: {
+
+  alias: field: {}
+
+  name: "article"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "if_none_match"
+                orig: "if_none_match"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/read-finder-index.json"
+          parts: [
+            "read-finder-index.json"
+          ]
+          select: {
+            exist: [
+              "if_none_match"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

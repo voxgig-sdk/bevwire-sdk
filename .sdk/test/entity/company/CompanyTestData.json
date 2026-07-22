@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "company": {
+      "COMPANY00": {
+        "id": "COMPANY00"
+      },
+      "COMPANY01": {
+        "id": "COMPANY01"
+      },
+      "COMPANY02": {
+        "id": "COMPANY02"
+      }
+    }
+  },
+  "new": {
+    "company": {
+      "company_ref01": {}
+    }
+  }
+}
