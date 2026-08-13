@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ BevwireUtility.registrar = ->(u) {
   u.prepare_params = BevwireUtilities::PrepareParams
   u.prepare_path = BevwireUtilities::PreparePath
   u.prepare_query = BevwireUtilities::PrepareQuery
+  u.graphql_body = BevwireUtilities::GraphqlBody
+  u.graphql_errors = BevwireUtilities::GraphqlErrors
   u.result_basic = BevwireUtilities::ResultBasic
   u.result_body = BevwireUtilities::ResultBody
   u.result_headers = BevwireUtilities::ResultHeaders

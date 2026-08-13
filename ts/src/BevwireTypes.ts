@@ -15,5 +15,11 @@ export interface Company {
 }
 
 export interface CompanyLoadMatch {
+
+  // Selects a custom action instead of the plain load:
+  //   'search'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 

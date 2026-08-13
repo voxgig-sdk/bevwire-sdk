@@ -46,6 +46,7 @@ module BevwireConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/read-finder-index.json",
                   "parts" => [
@@ -102,6 +103,7 @@ module BevwireConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/companies/search",
                   "parts" => [

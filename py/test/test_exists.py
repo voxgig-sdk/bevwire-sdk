@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Bevwire SDK exists test
 
 import pytest
 from bevwire_sdk import BevwireSDK

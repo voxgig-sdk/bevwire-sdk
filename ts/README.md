@@ -121,7 +121,8 @@ Create a mock client for unit testing — no server required:
 const client = BevwireSDK.test()
 
 const article = await client.Article().load()
-// article is a bare entity populated with mock response data
+// article is the entity, populated with mock response data
+// — call article.data() for the record itself
 console.log(article)
 ```
 

@@ -16,11 +16,11 @@
 import pytest
 
 from bevwire_sdk import BevwireSDK
-from core.error import BevwireError
-from core.result import BevwireResult
-from core.response import BevwireResponse
-from core.spec import BevwireSpec
-from feature.base_feature import BevwireBaseFeature
+from bevwire_sdk.core.error import BevwireError
+from bevwire_sdk.core.result import BevwireResult
+from bevwire_sdk.core.response import BevwireResponse
+from bevwire_sdk.core.spec import BevwireSpec
+from bevwire_sdk.feature.base_feature import BevwireBaseFeature
 
 
 def _client():

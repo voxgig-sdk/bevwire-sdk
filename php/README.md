@@ -35,7 +35,7 @@ $client = new BevwireSDK();
 
 ```php
 try {
-    // load() returns the bare Article record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Article record (throws on error).
     $article = $client->Article()->load();
     print_r($article);
 } catch (\Throwable $err) {
@@ -123,7 +123,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = BevwireSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $article = $client->Article()->load();
 print_r($article);
 ```
@@ -223,7 +224,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -277,7 +278,7 @@ Create an instance: `$article = $client->Article();`
 #### Example: Load
 
 ```php
-// load() returns the bare Article record (throws on error).
+// load() returns the ENTITY — call data_get() for the Article record (throws on error).
 $article = $client->Article()->load();
 ```
 
@@ -295,7 +296,7 @@ Create an instance: `$company = $client->Company();`
 #### Example: Load
 
 ```php
-// load() returns the bare Company record (throws on error).
+// load() returns the ENTITY — call data_get() for the Company record (throws on error).
 $company = $client->Company()->load();
 ```
 

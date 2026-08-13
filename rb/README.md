@@ -34,7 +34,7 @@ client = BevwireSDK.new
 
 ```ruby
 begin
-  # load returns the bare Article record (raises on error).
+  # load returns the ENTITY — call data_get for the Article record (raises on error).
   article = client.Article.load()
   puts article
 rescue => err
@@ -117,7 +117,8 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = BevwireSDK.test
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 article = client.Article.load()
 puts article
 ```
@@ -267,7 +268,7 @@ Create an instance: `article = client.Article`
 #### Example: Load
 
 ```ruby
-# load returns the bare Article record (raises on error).
+# load returns the ENTITY — call data_get for the Article record (raises on error).
 article = client.Article.load()
 ```
 
@@ -285,7 +286,7 @@ Create an instance: `company = client.Company`
 #### Example: Load
 
 ```ruby
-# load returns the bare Company record (raises on error).
+# load returns the ENTITY — call data_get for the Company record (raises on error).
 company = client.Company.load()
 ```
 

@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import BevwireControl
-from core.error import BevwireError
-from core.result import BevwireResult
-from core.spec import BevwireSpec
+from bevwire_sdk.config import make_config
+from bevwire_sdk.features import _make_feature
+from bevwire_sdk.core.control import BevwireControl
+from bevwire_sdk.core.error import BevwireError
+from bevwire_sdk.core.result import BevwireResult
+from bevwire_sdk.core.spec import BevwireSpec
 
 
 # True when this SDK was generated with the named feature.

@@ -168,6 +168,26 @@ Return a copy of the entity options.
 const company = client.Company()
 ```
 
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `search` | `/companies/search` | `client.Company().load({ $action: 'search', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Company record — check the API definition for its shape.
+
+```ts
+const result = await client.Company().load({
+  $action: 'search',
+  /* ...the action's own arguments */
+})
+```
+
 ### Operations
 
 #### `load(match: object, ctrl?: object)`

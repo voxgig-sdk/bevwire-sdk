@@ -51,6 +51,7 @@ class BevwireConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/read-finder-index.json',
                   'parts' => [
@@ -107,6 +108,7 @@ class BevwireConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/companies/search',
                   'parts' => [

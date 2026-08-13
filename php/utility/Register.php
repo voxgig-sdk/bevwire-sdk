@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ BevwireUtility::setRegistrar(function (BevwireUtility $u): void {
     $u->prepare_params = [BevwirePrepareParams::class, 'call'];
     $u->prepare_path = [BevwirePreparePath::class, 'call'];
     $u->prepare_query = [BevwirePrepareQuery::class, 'call'];
+    $u->graphql_body = [BevwireGraphql::class, 'body'];
+    $u->graphql_errors = [BevwireGraphql::class, 'errors'];
     $u->result_basic = [BevwireResultBasic::class, 'call'];
     $u->result_body = [BevwireResultBody::class, 'call'];
     $u->result_headers = [BevwireResultHeaders::class, 'call'];

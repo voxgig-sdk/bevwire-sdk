@@ -62,7 +62,7 @@ describe('CompanyEntity', async () => {
     // LOAD
     const company_ref01_ent = client.Company()
     const company_ref01_match_dt0: any = {}
-    const company_ref01_data_dt0 = await company_ref01_ent.load(company_ref01_match_dt0)
+    const company_ref01_data_dt0 = (await company_ref01_ent.load(company_ref01_match_dt0)).data()
     assert(null != company_ref01_data_dt0)
 
 
